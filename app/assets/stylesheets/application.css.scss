@@ -10,6 +10,19 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
+ *= require semantic
+ * require swiper
+ * require_tree .
  *= require_self
  */
+@import 'swiper_pages';
+
+.action_container {
+	margin-top: 40px !important;
+}
+
+#home-hero {
+	background-image: asset-url("bg-01.jpg");
+	background-size: 100%;
+	background-position: center;
+}

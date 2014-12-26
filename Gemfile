@@ -7,7 +7,6 @@ gem 'rails', '4.2.0'
 gem 'mongoid'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
-gem 'less'
 
 gem 'slim-rails'
 # Use Uglifier as compressor for JavaScript assets
@@ -40,7 +39,7 @@ gem 'cancancan'
 gem 'sidekiq'
 gem 'rails-admin'
 
-
+gem 'angularjs-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

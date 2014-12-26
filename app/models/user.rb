@@ -56,8 +56,9 @@ class User
   # field :unlock_token,    type: String # Only if unlock strategy is :email or :both
   # field :locked_at,       type: Time
 
+  has_one :profile, inverse_of: :user
+
   REGIONS = {
-    84  => 'Unknown',
     1   => '北京总部',
     10  => '江浙沪地区分部',
     20  => '东北地区分部',   #包括辽宁、吉林、黑龙江
@@ -65,10 +66,22 @@ class User
     40  => '华北地区分部',   #包括天津、河北、山西、内蒙古
     50  => '西部地区分部',   #包括宁夏、新疆、青海、陕西、甘肃、四川、云南、贵州、西藏、重庆
     60  => '华中地区分部',   #包括湖北、湖南、河南、江西
-    70  => '台港澳地区分部',
+    70  => '港澳台地区分部',
     100 => '北美地区分部',
     200 => '欧洲分部',
-    300 => '南半球分部'
+    300 => '南半球分部',
+    84  => '其他或尚不明确'
+  }
+
+  UNITS = {
+    1 => "格物书院 - 一单元", 
+    2 => "致知书院 - 二单元",
+    3 => "诚意书院 - 三单元",
+    4 => "正心书院 - 四单元",
+    5 => "明德(原元培)书院 - 五单元",
+    6 => "至善(原博雅)书院 - 六单元",
+    7 => "新民(原道尔顿)书院 - 国际部",
+    0 => "我不属于任何书院(单元)"
   }
  
   def department_member?
@@ -88,13 +101,18 @@ class User
     end
   end
 
+  def unit
+    User::UNITS[department]
+  end  
+
   def self.create_from_angular_params(params)
-    @user = User.create {
+    @user = User.create(
       email: params[:email],
       password: params[:password],
       password_confirmation: params[:password],
       mobile: params[:mobile],
       guaduate_at: params[:guaduate_at],
-    }
+    )
+  end
 
 end

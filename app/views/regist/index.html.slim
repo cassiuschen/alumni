@@ -1,0 +1,140 @@
+.full-height#home-hero
+  
+#home-content ng-controller="RegisterController"
+  .stackable.ui.grid.page.action_container
+      .four.wide.column
+        .ui.steps.small.ordered.vertical
+          a.step class="{{(onEditStep == 1)?'active':''}} {{(registStatus[0].completed == true)?'completed':''}}" ng-click="changeStatus(1);"
+            .content
+              .title 基本信息
+              .description
+                | 我们将根据这些信息完善您的身份信息
+          a.step class="{{(onEditStep == 2)?'active':''}} {{(registStatus[1].completed == true)?'completed':''}}" ng-click="changeStatus(2);"
+            .content
+              .title 额外信息
+              .description
+                | 我们将使用这部分数据来完善未来的社交功能
+          a.step class="{{(onEditStep == 3)?'active':''}} {{(registStatus[2].completed == true)?'completed':''}}" ng-click="changeStatus(3);"
+            .content
+              .title 地理信息
+              .description
+                | 您将在此选择加入的校友会分部
+          a.step class="{{(onEditStep == 4)?'active':''}}"
+            .content
+              .title 确认信息
+              .description
+                | 最终确认信息并提交
+        p
+          | {{registStatus}}
+      .twelve.wide.column
+        .segment.ui.form ng-if="onEditStep == 1"
+          h4.ui.dividing.header 基本信息
+          .two.fields
+            .field
+              label 姓名
+              input type="text" placeholder="姓名"
+            .field
+              label 毕业年份
+              .ui.selection.dropdown
+                input type="hidden"
+                .default.text 毕业年份
+                i.dropdown.icon
+                .menu
+                  - for i in (1980..Time.now.year.to_i).to_a.sort_by{|k| -k}
+                    .item data-value="#{i}" = i
+          .ui.divider
+          .field
+            label 电子邮箱地址
+            input type="email"
+          .field
+            label 登陆密码
+            input type="password"
+          .ui.divider
+          .field
+            label 联系电话
+            input type="text"
+          .field
+            label 性别
+            .ui.selection.dropdown
+              input type="hidden"
+              .default.text 请选择性别
+              i.dropdown.icon
+              .menu
+                .item data-value="male" 男
+                .item data-value="female" 女
+        .segment.ui.form ng-if="onEditStep == 2"
+          h4.ui.dividing.header 额外信息
+          .field
+            label 就读大学
+            input type="text"
+          .field
+            label 专业
+            input type="text"
+          .ui.divider
+          .field
+            label 所属书院(单元)
+            .ui.selection.dropdown
+              input type="hidden"
+              .default.text 请选择所属书院
+              i.dropdown.icon
+              .menu
+                - for (k,v) in User::UNITS
+                  .item data-value="#{k}" = v
+          .field
+            .ui.checkbox
+              input type="checkbox"
+              label 我是该书院荣誉成员
+          .ui.divider
+          .field
+            label 个人描述
+            textarea
+        .segment.ui.form.info ng-if="onEditStep == 3"
+          h4.ui.dividing.header 地理信息
+          .field
+            label 选择分部
+            .ui.selection.dropdown
+              input type="hidden"
+              .default.text 所属地区
+              i.dropdown.icon
+              .menu
+                - for (k,v) in User::REGIONS
+                  .item data-value="#{k}" = v
+          .ui.message.blue
+            .header
+              | 校友会分部说明
+            p
+              | 为了方面广大校友组织地域性集会，我们将在全球设立11个校友会分部，请您根据以下信息选择与您主要活动地域最匹配的校友总会：
+            ul.list
+              li
+                | 北京总部，北京地区校友总会
+              li
+                | 江浙沪地区分部，浙江、江苏、上海地区校友总会
+              li
+                | 东北地区分部，山东、安徽、福建、广东、广西、海南地区校友总会
+              li
+                | 华北地区分部，天津、河北、山西、内蒙古地区校友总会
+              li
+                | 西部地区分部，包括宁夏、新疆、青海、陕西、甘肃、四川、云南、贵州、西藏、重庆地区校友总会
+              li
+                | 华中地区分部，包括湖北、湖南、河南、江西地区校友总会
+              li
+                | 港澳台地区分部，港澳台留学生校友总会
+              li
+                | 北美地区分部，北美洲留学生校友总会
+              li
+                | 欧洲分部，欧洲留学生校友总会
+              li
+                | 南半球分部，南半球国家留学生校友总会
+            p
+              | 请放心，加入校友分会是
+              b 可改变
+              | 的举措，若本次选择出现错误或信息发生变化，请联系管理员或分会负责人进行信息变更。
+            p
+              | 目前校友会仍在组建，如您有意愿成为校友会运作的一部分，请联系临时负责人 陈紫晟：
+              code
+                | +86 159-1036-4815
+
+
+      
+
+
