@@ -12,12 +12,6 @@ class User
   field :mobile,             type: String
 
   # Main Data
-  # BDFZerID格式： "201400100001", 毕业年份 2014， 所在地 北京（001）， 序号 001
-  field :BdfzerId,             type: String, default: -> {
-    guaduate_at + region.to_s.rjust(3, '0') + _id.to_s.rjust(5, '0')
-  }
-  validates :BdfzerId,         presence: true, uniqueness: true
-
   field :region,               type: Integer, default: 84
 
   field :sexual,               type: String, default: 'Unknown'
@@ -83,6 +77,11 @@ class User
     7 => "新民(原道尔顿)书院 - 国际部",
     0 => "我不属于任何书院(单元)"
   }
+
+  def BdfzerId
+    # BDFZerID格式： "201400100001", 毕业年份 2014， 所在地 北京（001）， 序号 001
+    guaduate_at + region.to_s.rjust(3, '0') + _id.to_s.rjust(5, '0')
+  end
  
   def department_member?
     !!(department_member)
