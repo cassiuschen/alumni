@@ -1,5 +1,9 @@
+/.border-red.top
 .full-height#home-hero
-  
+  /.mask
+  .hero-area
+    h1.title 欢迎回家
+/.border-red.bottom
 #home-content ng-controller="RegisterController"
   .stackable.ui.grid.page.action_container
       .four.wide.column
@@ -62,6 +66,8 @@
               .menu
                 .item data-value="male" 男
                 .item data-value="female" 女
+          coffee:
+            window.base.InitDropDown()
         .segment.ui.form ng-if="onEditStep == 2"
           h4.ui.dividing.header 额外信息
           .field
@@ -88,6 +94,8 @@
           .field
             label 个人描述
             textarea
+          coffee:
+            window.base.InitDropDown()
         .segment.ui.form.info ng-if="onEditStep == 3"
           h4.ui.dividing.header 地理信息
           .field
@@ -99,6 +107,8 @@
               .menu
                 - for (k,v) in User::REGIONS
                   .item data-value="#{k}" = v
+          coffee:
+            window.base.InitDropDown()
           .ui.message.blue
             .header
               | 校友会分部说明
@@ -110,9 +120,11 @@
               li
                 | 江浙沪地区分部，浙江、江苏、上海地区校友总会
               li
-                | 东北地区分部，山东、安徽、福建、广东、广西、海南地区校友总会
+                | 东北地区分部，辽宁、吉林、黑龙江地区校友总会
               li
-                | 华北地区分部，天津、河北、山西、内蒙古地区校友总会
+                | 华东南地区分部，安徽、福建、广东、广西、海南地区校友总会
+              li
+                | 华北地区分部，山东、天津、河北、山西、内蒙古地区校友总会
               li
                 | 西部地区分部，包括宁夏、新疆、青海、陕西、甘肃、四川、云南、贵州、西藏、重庆地区校友总会
               li

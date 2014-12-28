@@ -27,6 +27,28 @@
 #= require swiper
 # require_tree .
 
+window.base =
+	InitDropDown : () ->
+		$('.ui.dropdown').dropdown()
+
+	ResizeHomeHeroBG : () ->
+		@width = $(window).width() / 3
+		@height = $(window).height() / 2
+		if @width >= @height
+			$('#home-hero').css 'background-size', '100% auto'
+		if @width < @height
+			$('#home-hero').css 'background-size', 'auto 100%'
+
+	ResizeAll : () ->
+		#window.base.ResizeHomeHeroBG()
+
+	Initialize : () ->
+		window.base.InitDropDown()
+		window.base.ResizeAll()
+
+window.onresize = ->
+	window.base.ResizeAll()
+
 window.angular_app = angular.module('AlumniApp', [
 	'ngCookies',
 	'ngRoute',
@@ -80,6 +102,7 @@ window.angular_app.controller 'RegisterController', [
 			console.log 'Changing onEditStep info to #{stepIndex}!'
 			$rs.onEditStep = stepIndex
 			$rs.registStatus[stepIndex - 1].onEdit = true
+			window.base.InitDropDown()
 
 		$s.checkProgress = (stepIndex) ->
 			console.log 'Now Check Progrss but all pass!'
@@ -100,5 +123,5 @@ $ ->
     #	keyboardControl: true
     #	#mousewheelControl: true
     #	moveStartThreshold: 8
-   	$('.ui.dropdown').dropdown()
+   	window.base.Initialize()
    	$('.ui.sticky').sticky()

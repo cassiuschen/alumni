@@ -17,12 +17,74 @@
  */
 @import 'swiper_pages';
 
+$bdfz-red: #c53838;
+$green: #3fc380;
+
+html {
+	font-family: 'Apple LiGothic Medium','SimHei';
+}
+
 .action_container {
 	margin-top: 40px !important;
 }
+.border-red {
+	border: 5px solid $bdfz-red;
+	width: 100%;
+	height: 10px;
+	&.bottom {
+		position: absolute;
+		top: 99%;
+	}
 
+	&.top {
+		position: absolute;
+		top: 0;
+		border-width: 7px;
+	}
+}
 #home-hero {
-	background-image: asset-url("bg-01.jpg");
-	background-size: 100%;
+	background-image: asset-url("gate_white_wide.png");
+	background-size: 1500px 500px;
+	background-repeat: no-repeat;
+	background-color: $green;
 	background-position: center;
+	background-position-y:100%;
+	.mask {
+		margin: 0px;
+		padding: 0px;
+		position: absolute;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0,0,0,0.6);
+		z-index: 10;
+	}
+	.hero-area {
+		color: white;
+		width: 600px;
+		margin: 0 auto;
+		height: 100%;
+		vertical-align: middle;
+		padding-top: 15%;
+		text-align: center;
+		z-index: 100;
+		.title {
+			z-index: 500;
+			font-size: 100px;
+			font-weight: 800;
+			letter-spacing: 5px;
+			text-transform: uppercase;
+		}
+	}
+
+	@media (max-width: 750px) {
+		.hero-area {
+			width: 300px;
+		}
+	}
+}
+
+#home-content {
+	min-height: 100%;
+	padding: 2rem;
 }
