@@ -8,8 +8,8 @@ class Profile
 
   field :major,		type: String
 
-  field :des,		type: Text
+  field :des,		type: String
 
   belongs_to :user, class_name: "User", inverse_of: :profile
-  
+
 end

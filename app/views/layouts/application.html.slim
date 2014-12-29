@@ -6,7 +6,7 @@ html ng-app="AlumniApp"
     meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"
     meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true 
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   body class="#{action_name} #{controller_name}"
     .notice = notice
@@ -16,7 +16,7 @@ html ng-app="AlumniApp"
       .stackable.ui.grid.page style="vertical-align:middle;"
         .four.wide.column style="text-align: center;"
           .logo.vertical.white.all style="height: 200px; width: 150px;margin: 0 auto;"
-          - if Time.now < "2015-1-7".to_time or Rails.env.development?
+          - if Time.now > "2015-1-7".to_time or Rails.env.development?
             a.ui.button.inverted ng-click="showForm = !(showForm)"校友注册
           - else
             a.ui.button.inverted.disabled 1月7日，开始报道
@@ -31,12 +31,12 @@ html ng-app="AlumniApp"
             li 分会负责人
             li 网络平台维护人员
           p
-            | 如果您愿意参与其中，或您对校友会有任何想法或建议，请致信 
+            | 如果您愿意参与其中，或您对校友会有任何想法或建议，请致信
             a href="mailto:contact@bdfzer.com"
               code
                 | contact@bdfzer.com
             br
-            | 或通过微信联系 
+            | 或通过微信联系
             a#wechat style="display:inline-block;"
               | 点击此处查看二维码
             .wechat.popup.ui
@@ -49,8 +49,8 @@ html ng-app="AlumniApp"
                 transition: 'fade up'
                 position: 'top center'
                 reposition: true
-        
-          
+
+
 
     /- unless Rails.env.production?
       /= console

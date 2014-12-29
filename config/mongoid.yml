@@ -1,3 +1,9 @@
+production:
+  sessions:
+    default:
+      database: alumni_production_tmp
+      hosts:
+        - 127.0.0.1:27017
 development:
   # Configure available database sessions. (required)
   sessions:
