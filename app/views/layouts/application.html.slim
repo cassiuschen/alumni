@@ -12,6 +12,45 @@ html ng-app="AlumniApp"
     .notice = notice
     .alert = alert
     = yield
+    footer
+      .stackable.ui.grid.page style="vertical-align:middle;"
+        .four.wide.column style="text-align: center;"
+          .logo.vertical.white.all style="height: 200px; width: 150px;margin: 0 auto;"
+          - if Time.now < "2015-1-7".to_time or Rails.env.development?
+            a.ui.button.inverted ng-click="showForm = !(showForm)"校友注册
+          - else
+            a.ui.button.inverted.disabled 1月7日，开始报道
+        .one.wide.column
+        .eleven.wide.column
+          p
+            | 北大附中校友会于2015年起开始重组，我们希望广大校友在这个崭新的组织里重拾旧时光阴、找回当年的友谊。
+          p
+            | 但校友会重组仍需时间，目前我们急需：
+          ul.ui.list
+            li 总会秘书处成员
+            li 分会负责人
+            li 网络平台维护人员
+          p
+            | 如果您愿意参与其中，或您对校友会有任何想法或建议，请致信 
+            a href="mailto:contact@bdfzer.com"
+              code
+                | contact@bdfzer.com
+            br
+            | 或通过微信联系 
+            a#wechat style="display:inline-block;"
+              | 点击此处查看二维码
+            .wechat.popup.ui
+              = image_tag 'wechat-cassiuschen.jpg', style: 'width: 100%;'
+            coffee:
+              $('#wechat').popup
+                popup: $('.wechat.popup')
+                inline: true
+                on: 'click'
+                transition: 'fade up'
+                position: 'top center'
+                reposition: true
+        
+          
 
     /- unless Rails.env.production?
       /= console

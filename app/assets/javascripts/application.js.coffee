@@ -39,12 +39,21 @@ window.base =
 		if @width < @height
 			$('#home-hero').css 'background-size', 'auto 100%'
 
+	ChangeBGColor : () ->
+		colors = ['#89c4f4', '#3fc380', '#e08283']
+		time = 0
+		setInterval () ->
+				$('#home-hero').css 'background-color', colors[time % 3]
+				time += 1
+			, 4000
+
 	ResizeAll : () ->
 		#window.base.ResizeHomeHeroBG()
 
 	Initialize : () ->
 		window.base.InitDropDown()
 		window.base.ResizeAll()
+		window.base.ChangeBGColor()
 
 window.onresize = ->
 	window.base.ResizeAll()
@@ -89,6 +98,7 @@ window.angular_app.run [
 			}
 		]
 		$rs.onEditStep = 1
+		$rs.showForm = false
 
 ]
 

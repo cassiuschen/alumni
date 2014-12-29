@@ -19,9 +19,28 @@
 
 $bdfz-red: #c53838;
 $green: #3fc380;
+$red: #e08283;
+$blue: #89c4f4;
+$gray: #36363c;
+
+@mixin transition($block, $time) {
+	-webkit-transition: $block $time;
+	-moz-transition: $block $time;
+	-ms-transition: $block $time;
+	-o-transition: $block $time;
+	transition: $block $time;
+}
 
 html {
 	font-family: 'Apple LiGothic Medium','SimHei';
+	background-color: $gray;
+}
+
+footer {
+	padding: 2rem;
+	width: 100%;
+	background-color: $gray;
+	color: #fff;
 }
 
 .action_container {
@@ -42,13 +61,61 @@ html {
 		border-width: 7px;
 	}
 }
+
+.logo {
+	background-image: asset-url('logo/logo.png');
+	background-size: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	width: 100px;
+	height: 80px;
+}
+.logo.white {
+	background-image: asset-url('logo/logo-white.png');
+}
+.logo.black {
+	background-image: asset-url('logo/logo-black.png');
+}
+.logo.white.vertical {
+	background-image: asset-url('logo/logo-vertical-white.png');
+}
+.logo.black.vertical {
+	background-image: asset-url('logo/logo-vertical-black.png');
+}
+.logo.white.vertical.all {
+	background-image: asset-url('logo/logo-vertical-white-all.png');
+}
+.logo.black.vertical.all {
+	background-image: asset-url('logo/logo-vertical-black-all.png');
+}
+.logo.white.horizon {
+	background-image: asset-url('logo/logo-horizon-white.png');
+}
+.logo.black.horizon {
+	background-image: asset-url('logo/logo-horizon-black.png');
+}
+.logo.white.horizon.all {
+	background-image: asset-url('logo/logo-horizon-white-all.png');
+}
+.logo.black.horizon.all {
+	background-image: asset-url('logo/logo-horizon-black-all.png');
+}
+
 #home-hero {
+	-webkit-transition: background-color 2.28s;
+	-moz-transition: background-color 2.28s;
+	-ms-transition: background-color 2.28s;
+	-o-transition: background-color 2.28s;
+	transition: background-color 2.28s;
 	background-image: asset-url("gate_white_wide.png");
 	background-size: 1500px 500px;
 	background-repeat: no-repeat;
 	background-color: $green;
 	background-position: center;
 	background-position-y:100%;
+	.logo {
+		margin: 0 auto;
+	}
 	.mask {
 		margin: 0px;
 		padding: 0px;
@@ -61,7 +128,7 @@ html {
 	}
 	.hero-area {
 		color: white;
-		width: 600px;
+		width: 400px;
 		margin: 0 auto;
 		height: 100%;
 		vertical-align: middle;
@@ -70,21 +137,57 @@ html {
 		z-index: 100;
 		.title {
 			z-index: 500;
-			font-size: 100px;
+			font-size: 70px;
 			font-weight: 800;
 			letter-spacing: 5px;
 			text-transform: uppercase;
+			margin: 0;
+			letter-spacing: 0px;
+		}
+		.sub.title {
+			font-size: 30px !important;
+			opacity: 0.6;
 		}
 	}
 
-	@media (max-width: 750px) {
+	@media (max-width: 750px) and (min-height: 500px) {
 		.hero-area {
 			width: 300px;
+			padding-top: 35%;
 		}
 	}
 }
 
+#home-logo {
+	position: absolute;
+	top: 0px;
+	left: 20px;
+	width: 200px;
+}
+@media (max-width: 768px) {
+	#home-logo {
+		width: 150px;
+	}
+}
 #home-content {
-	min-height: 100%;
+	@include transition(height, 0.8s);
 	padding: 2rem;
+	background-color: #fff;
+	.steps {
+		border-radius: 0px;
+		.step {
+			border-radius: 0px;
+		}
+	}
+	.segment {
+		border-radius: 0;
+	}
+	@media (max-width: 768px) {
+		.steps {
+			width: 100% !important;
+		}
+		.active.step::after {
+			display: none !important;
+		}
+	}
 }

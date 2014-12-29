@@ -1,102 +1,110 @@
 /.border-red.top
+.logo.white.horizon.all#home-logo
 .full-height#home-hero
   /.mask
   .hero-area
     h1.title 欢迎回家
+    .sub.title
+      - if Time.now < "2015-1-7".to_time
+        | 1月7日，开始报道！
+      - else
+        | 已有 #{(User.all.size > 30)?(User.all.size):(User.all.size + 30)} 名校友报道
+    - if Time.now > "2015-1-7".to_time or Rails.env.development?
+      a.ui.button.inverted.huge href="#home-content" style="margin-top:30px;" ng-click="showForm = !(showForm)" 我要报道
+    /- else
+      /a.ui.button.inverted.huge.disabled style="margin-top:30px;" 1月7日，开始报道
 /.border-red.bottom
-#home-content ng-controller="RegisterController"
+#home-content ng-controller="RegisterController" ng-if="showForm"
   .stackable.ui.grid.page.action_container
-      .four.wide.column
-        .ui.steps.small.ordered.vertical
-          a.step class="{{(onEditStep == 1)?'active':''}} {{(registStatus[0].completed == true)?'completed':''}}" ng-click="changeStatus(1);"
-            .content
-              .title 基本信息
-              .description
-                | 我们将根据这些信息完善您的身份信息
-          a.step class="{{(onEditStep == 2)?'active':''}} {{(registStatus[1].completed == true)?'completed':''}}" ng-click="changeStatus(2);"
-            .content
-              .title 额外信息
-              .description
-                | 我们将使用这部分数据来完善未来的社交功能
-          a.step class="{{(onEditStep == 3)?'active':''}} {{(registStatus[2].completed == true)?'completed':''}}" ng-click="changeStatus(3);"
-            .content
-              .title 地理信息
-              .description
-                | 您将在此选择加入的校友会分部
-          a.step class="{{(onEditStep == 4)?'active':''}}"
-            .content
-              .title 确认信息
-              .description
-                | 最终确认信息并提交
-        p
-          | {{registStatus}}
-      .twelve.wide.column
-        .segment.ui.form ng-if="onEditStep == 1"
-          h4.ui.dividing.header 基本信息
-          .two.fields
-            .field
-              label 姓名
-              input type="text" placeholder="姓名"
-            .field
-              label 毕业年份
-              .ui.selection.dropdown
-                input type="hidden"
-                .default.text 毕业年份
-                i.dropdown.icon
-                .menu
-                  - for i in (1980..Time.now.year.to_i).to_a.sort_by{|k| -k}
-                    .item data-value="#{i}" = i
-          .ui.divider
+    .four.wide.column
+      .ui.steps.small.ordered.vertical
+        a.step class="{{(onEditStep == 1)?'active':''}} {{(registStatus[0].completed == true)?'completed':''}}" ng-click="changeStatus(1);"
+          .content
+            .title 基本信息
+            .description
+              | 我们将根据这些信息完善您的身份信息
+        a.step class="{{(onEditStep == 2)?'active':''}} {{(registStatus[1].completed == true)?'completed':''}}" ng-click="changeStatus(2);"
+          .content
+            .title 额外信息
+            .description
+              | 我们将使用这部分数据来完善未来的社交功能
+        a.step class="{{(onEditStep == 3)?'active':''}} {{(registStatus[2].completed == true)?'completed':''}}" ng-click="changeStatus(3);"
+          .content
+            .title 地理信息
+            .description
+              | 您将在此选择加入的校友会分部
+        a.step class="{{(onEditStep == 4)?'active':''}}"
+          .content
+            .title 确认信息
+            .description
+              | 最终确认信息并提交
+    .twelve.wide.column
+      .segment.ui.form ng-if="onEditStep == 1"
+        h4.ui.dividing.header 基本信息
+        .two.fields
           .field
-            label 电子邮箱地址
-            input type="email"
+            label 姓名
+            input type="text" placeholder="姓名"
           .field
-            label 登陆密码
-            input type="password"
-          .ui.divider
-          .field
-            label 联系电话
-            input type="text"
-          .field
-            label 性别
+            label 毕业年份
             .ui.selection.dropdown
               input type="hidden"
-              .default.text 请选择性别
+              .default.text 毕业年份
               i.dropdown.icon
               .menu
-                .item data-value="male" 男
-                .item data-value="female" 女
-          coffee:
-            window.base.InitDropDown()
-        .segment.ui.form ng-if="onEditStep == 2"
-          h4.ui.dividing.header 额外信息
-          .field
-            label 就读大学
-            input type="text"
-          .field
-            label 专业
-            input type="text"
-          .ui.divider
-          .field
-            label 所属书院(单元)
-            .ui.selection.dropdown
-              input type="hidden"
-              .default.text 请选择所属书院
-              i.dropdown.icon
-              .menu
-                - for (k,v) in User::UNITS
-                  .item data-value="#{k}" = v
-          .field
-            .ui.checkbox
-              input type="checkbox"
-              label 我是该书院荣誉成员
-          .ui.divider
-          .field
-            label 个人描述
-            textarea
-          coffee:
-            window.base.InitDropDown()
-        .segment.ui.form.info ng-if="onEditStep == 3"
+                - for i in (1980..Time.now.year.to_i).to_a.sort_by{|k| -k}
+                  .item data-value="#{i}" = i
+        .ui.divider
+        .field
+          label 电子邮箱地址
+          input type="email"
+        .field
+          label 登陆密码
+          input type="password"
+        .ui.divider
+        .field
+          label 联系电话
+          input type="text"
+        .field
+          label 性别
+          .ui.selection.dropdown
+            input type="hidden"
+            .default.text 请选择性别
+            i.dropdown.icon
+            .menu
+              .item data-value="male" 男
+              .item data-value="female" 女
+        coffee:
+          window.base.InitDropDown()
+      .segment.ui.form ng-if="onEditStep == 2"
+        h4.ui.dividing.header 额外信息
+        .field
+          label 就读大学
+          input type="text"
+        .field
+          label 专业
+          input type="text"
+        .ui.divider
+        .field
+          label 所属书院(单元)
+          .ui.selection.dropdown
+            input type="hidden"
+            .default.text 请选择所属书院
+            i.dropdown.icon
+            .menu
+              - for (k,v) in User::UNITS
+                .item data-value="#{k}" = v
+        .field
+          .ui.checkbox
+            input type="checkbox"
+            label 我是该书院荣誉成员
+        .ui.divider
+        .field
+          label 个人描述
+          textarea
+        coffee:
+          window.base.InitDropDown()
+      .segment.ui.form.info ng-if="onEditStep == 3"
           h4.ui.dividing.header 地理信息
           .field
             label 选择分部
@@ -145,7 +153,6 @@
               | 目前校友会仍在组建，如您有意愿成为校友会运作的一部分，请联系临时负责人 陈紫晟：
               code
                 | +86 159-1036-4815
-
 
       
 
