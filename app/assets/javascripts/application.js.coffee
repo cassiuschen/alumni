@@ -25,6 +25,8 @@
 #= require angular-animate
 #= require semantic
 #= require swiper
+#= require_self
+#= require_tree ./controllers
 # require_tree .
 
 window.base =
@@ -40,7 +42,7 @@ window.base =
 			$('#home-hero').css 'background-size', 'auto 100%'
 
 	ChangeBGColor : () ->
-		colors = ['#89c4f4', '#3fc380', '#e08283']
+		colors = ['#e08283', '#89c4f4', '#3fc380']
 		time = 0
 		setInterval () ->
 				$('#home-hero').css 'background-color', colors[time % 3]
@@ -49,6 +51,29 @@ window.base =
 
 	ResizeAll : () ->
 		#window.base.ResizeHomeHeroBG()
+
+	Validation : (stepIndex) ->
+		console.log 'validation is running'
+		switch stepIndex
+			when 1
+				$('.ui.form#step1').form
+					name:
+						identifier: 'name'
+						rules: [
+							{
+								type: 'empty',
+								prompt: 'Name Shouldnt be empty'
+							}
+						]
+					graduateAt:
+						identifier: 'graduateAt'
+						rules: [
+							{
+								type: 'empty'
+								prompt: "Should do this"
+							}
+						]
+				return
 
 	Initialize : () ->
 		window.base.InitDropDown()
@@ -102,40 +127,12 @@ window.angular_app.run [
 
 ]
 
-window.angular_app.controller 'RegisterController', [
-	'$rootScope',
-	'$http',
-	'$scope',
-	($rs, $http, $s) ->
-		$s.changeStatus = (stepIndex) ->
-			$s.checkProgress($rs.onEditStep)
-			console.log 'Changing onEditStep info to #{stepIndex}!'
-			$rs.onEditStep = stepIndex
-			$rs.registStatus[stepIndex - 1].onEdit = true
-			window.base.InitDropDown()
-
-		$s.checkProgress = (stepIndex) ->
-			console.log 'Now Check Progrss but all pass!'
-			$s.stepHasCompleted(stepIndex)
-
-		$s.stepHasCompleted = (stepIndex) ->
-			console.log 'Setting StepInfo completed!'
-			$rs.registStatus[stepIndex - 1].completed = true
-
-		# Data
-		# Initialization
-		$s.registData = {}
-
-
-
-]
-
 $ ->
 	#swiper = $('.pages').swiper
-    #	mode:'vertical'
-    #	loop: false
-    #	keyboardControl: true
-    #	#mousewheelControl: true
-    #	moveStartThreshold: 8
-   	window.base.Initialize()
-   	$('.ui.sticky').sticky()
+	#	mode:'vertical'
+	#	loop: false
+	#	keyboardControl: true
+	#	#mousewheelControl: true
+	#	moveStartThreshold: 8
+	window.base.Initialize()
+	$('.ui.sticky').sticky()

@@ -38,19 +38,20 @@
             .title 确认信息
             .description
               | 最终确认信息并提交
+    .twelve.wide.column
       p
         | {{registData}}
-    .twelve.wide.column
-      .segment.ui.form ng-if="onEditStep == 1"
+      .segment.ui.form.attached#step1 ng-if="onEditStep == 1"
+        .ui.error.message
         h4.ui.dividing.header 基本信息
         .two.fields
           .field
             label 姓名
-            input type="text" placeholder="姓名" ng-model="registData.name"
+            input#name type="text" placeholder="姓名" ng-model="registData.name"
           .field
             label 毕业年份
             .ui.selection.dropdown
-              input type="hidden" value="{{registData.guaduateAt || ''}}" ng-model="registData.guaduateAt"
+              input#graduateAt name="graduateAt" type="hidden" ng-model="registData.guaduateAt"
               .default.text 毕业年份
               i.dropdown.icon
               .menu
@@ -59,18 +60,18 @@
         .ui.divider
         .field
           label 电子邮箱地址
-          input type="email" ng-model="registData.email"
+          input#email type="email" ng-model="registData.email"
         .field
           label 登陆密码
-          input type="password" ng-model="registData.password"
+          input#password type="password" ng-model="registData.password"
         .ui.divider
         .field
           label 联系电话
-          input type="text" ng-model="registData.phone"
+          input#phone type="text" ng-model="registData.phone"
         .field
           label 性别
           .ui.selection.dropdown
-            input type="hidden" ng-model="registData.sex"
+            input#sexal type="hidden" ng-model="registData.sex"
             .default.text 请选择性别
             i.dropdown.icon
             .menu
@@ -78,7 +79,9 @@
               .item data-value="female" 女
         coffee:
           window.base.InitDropDown()
-      .segment.ui.form ng-if="onEditStep == 2"
+      a.ui.bottom.attached.button.green ng-if="onEditStep == 1" onclick="window.base.Validation(1);" NEXT
+      .segment.attached.ui.form ng-if="onEditStep == 2"
+        .ui.error.message
         h4.ui.dividing.header 额外信息
         .field
           label 就读大学
@@ -106,55 +109,59 @@
           /textarea 
         coffee:
           window.base.InitDropDown()
-      .segment.ui.form.info ng-if="onEditStep == 3"
-          h4.ui.dividing.header 地理信息
-          .field
-            label 选择分部
-            .ui.selection.dropdown
-              input type="hidden" ng-model="registData.zone"
-              .default.text 所属地区
-              i.dropdown.icon
-              .menu
-                - for (k,v) in User::REGIONS
-                  .item data-value="#{k}" = v
-          coffee:
-            window.base.InitDropDown()
-          .ui.message.blue
-            .header
-              | 校友会分部说明
-            p
-              | 为了方面广大校友组织地域性集会，我们将在全球设立11个校友会分部，请您根据以下信息选择与您主要活动地域最匹配的校友总会：
-            ul.list
-              li
-                | 北京总部，北京地区校友总会
-              li
-                | 江浙沪地区分部，浙江、江苏、上海地区校友总会
-              li
-                | 东北地区分部，辽宁、吉林、黑龙江地区校友总会
-              li
-                | 华东南地区分部，安徽、福建、广东、广西、海南地区校友总会
-              li
-                | 华北地区分部，山东、天津、河北、山西、内蒙古地区校友总会
-              li
-                | 西部地区分部，包括宁夏、新疆、青海、陕西、甘肃、四川、云南、贵州、西藏、重庆地区校友总会
-              li
-                | 华中地区分部，包括湖北、湖南、河南、江西地区校友总会
-              li
-                | 港澳台地区分部，港澳台留学生校友总会
-              li
-                | 北美地区分部，北美洲留学生校友总会
-              li
-                | 欧洲分部，欧洲留学生校友总会
-              li
-                | 南半球分部，南半球国家留学生校友总会
-            p
-              | 请放心，加入校友分会是
-              b 可改变
-              | 的举措，若本次选择出现错误或信息发生变化，请联系管理员或分会负责人进行信息变更。
-            p
-              | 目前校友会仍在组建，如您有意愿成为校友会运作的一部分，请联系临时负责人 陈紫晟：
-              code
-                | +86 159-1036-4815
+      a.ui.bottom.attached.button.green ng-if="onEditStep == 2" NEXT
+      
+      .segment.attached.ui.form.info ng-if="onEditStep == 3"
+        .ui.error.message
+        h4.ui.dividing.header 地理信息
+        .field
+          label 选择分部
+          .ui.selection.dropdown
+            input type="hidden" ng-model="registData.zone"
+            .default.text 所属地区
+            i.dropdown.icon
+            .menu
+              - for (k,v) in User::REGIONS
+                .item data-value="#{k}" = v
+        coffee:
+          window.base.InitDropDown()
+        .ui.message.blue
+          .header
+            | 校友会分部说明
+          p
+            | 为了方面广大校友组织地域性集会，我们将在全球设立11个校友会分部，请您根据以下信息选择与您主要活动地域最匹配的校友总会：
+          ul.list
+            li
+              | 北京总部，北京地区校友总会
+            li
+              | 江浙沪地区分部，浙江、江苏、上海地区校友总会
+            li
+              | 东北地区分部，辽宁、吉林、黑龙江地区校友总会
+            li
+              | 华东南地区分部，安徽、福建、广东、广西、海南地区校友总会
+            li
+              | 华北地区分部，山东、天津、河北、山西、内蒙古地区校友总会
+            li
+              | 西部地区分部，包括宁夏、新疆、青海、陕西、甘肃、四川、云南、贵州、西藏、重庆地区校友总会
+            li
+              | 华中地区分部，包括湖北、湖南、河南、江西地区校友总会
+            li
+              | 港澳台地区分部，港澳台留学生校友总会
+            li
+              | 北美地区分部，北美洲留学生校友总会
+            li
+              | 欧洲分部，欧洲留学生校友总会
+            li
+              | 南半球分部，南半球国家留学生校友总会
+          p
+            | 请放心，加入校友分会是
+            b 可改变
+            | 的举措，若本次选择出现错误或信息发生变化，请联系管理员或分会负责人进行信息变更。
+          p
+            | 目前校友会仍在组建，如您有意愿成为校友会运作的一部分，请联系临时负责人 陈紫晟：
+            code
+              | +86 159-1036-4815
+      a.ui.bottom.attached.button.green ng-if="onEditStep == 3" NEXT
 
       
 
