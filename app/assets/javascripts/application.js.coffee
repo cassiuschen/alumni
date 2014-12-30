@@ -122,6 +122,10 @@ window.angular_app.controller 'RegisterController', [
 			console.log 'Setting StepInfo completed!'
 			$rs.registStatus[stepIndex - 1].completed = true
 
+		# Data
+		# Initialization
+		$s.registData = {}
+
 
 
 ]

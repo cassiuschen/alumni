@@ -38,17 +38,19 @@
             .title 确认信息
             .description
               | 最终确认信息并提交
+      p
+        | {{registData}}
     .twelve.wide.column
       .segment.ui.form ng-if="onEditStep == 1"
         h4.ui.dividing.header 基本信息
         .two.fields
           .field
             label 姓名
-            input type="text" placeholder="姓名"
+            input type="text" placeholder="姓名" ng-model="registData.name"
           .field
             label 毕业年份
             .ui.selection.dropdown
-              input type="hidden"
+              input type="hidden" value="{{registData.guaduateAt || ''}}" ng-model="registData.guaduateAt"
               .default.text 毕业年份
               i.dropdown.icon
               .menu
@@ -57,18 +59,18 @@
         .ui.divider
         .field
           label 电子邮箱地址
-          input type="email"
+          input type="email" ng-model="registData.email"
         .field
           label 登陆密码
-          input type="password"
+          input type="password" ng-model="registData.password"
         .ui.divider
         .field
           label 联系电话
-          input type="text"
+          input type="text" ng-model="registData.phone"
         .field
           label 性别
           .ui.selection.dropdown
-            input type="hidden"
+            input type="hidden" ng-model="registData.sex"
             .default.text 请选择性别
             i.dropdown.icon
             .menu
@@ -80,15 +82,15 @@
         h4.ui.dividing.header 额外信息
         .field
           label 就读大学
-          input type="text"
+          input type="text" ng-model="registData.school"
         .field
           label 专业
-          input type="text"
+          input type="text" ng-model="registData.major"
         .ui.divider
         .field
           label 所属书院(单元)
           .ui.selection.dropdown
-            input type="hidden"
+            input type="hidden" ng-model="registData.department"
             .default.text 请选择所属书院
             i.dropdown.icon
             .menu
@@ -99,9 +101,9 @@
             input type="checkbox"
             label 我是该书院荣誉成员
         .ui.divider
-        .field
-          label 个人描述
-          textarea
+        /.field
+          /label 个人描述
+          /textarea 
         coffee:
           window.base.InitDropDown()
       .segment.ui.form.info ng-if="onEditStep == 3"
@@ -109,7 +111,7 @@
           .field
             label 选择分部
             .ui.selection.dropdown
-              input type="hidden"
+              input type="hidden" ng-model="registData.zone"
               .default.text 所属地区
               i.dropdown.icon
               .menu
