@@ -32,6 +32,7 @@
 window.base =
 	InitDropDown : () ->
 		$('.ui.dropdown').dropdown()
+		$('.ui.checkbox').checkbox()
 
 	ResizeHomeHeroBG : () ->
 		@width = $(window).width() / 3
@@ -52,28 +53,75 @@ window.base =
 	ResizeAll : () ->
 		#window.base.ResizeHomeHeroBG()
 
-	Validation : (stepIndex) ->
-		console.log 'validation is running'
-		switch stepIndex
-			when 1
-				$('.ui.form#step1').form
-					name:
-						identifier: 'name'
-						rules: [
-							{
-								type: 'empty',
-								prompt: 'Name Shouldnt be empty'
-							}
-						]
-					graduateAt:
-						identifier: 'graduateAt'
-						rules: [
-							{
-								type: 'empty'
-								prompt: "Should do this"
-							}
-						]
-				return
+	ValidateFormOne : () ->
+		$('.ui.form#step1').form
+			name:
+				inline: true
+				on: 'blur'
+				identifier: 'name'
+				rules: [
+					{
+						type: 'empty',
+						prompt: '请填写姓名哟~'
+					}
+				]
+			graduateAt:
+				inline: true
+				on: 'blur'
+				identifier: 'graduateAt'
+				rules: [
+					{
+						type: 'empty'
+						prompt: "请填写毕业年份哟~"
+					}
+				]
+			email:
+				inline: true
+				on: 'blur'
+				identifier: 'email'
+				rules: [
+					type: 'email'
+					prompt: '亲你好像填的不是电子邮件格式吧~'
+				]
+			password:
+				inline: true
+				on: 'blur'
+				identifier: "password"
+				rules: [
+					{
+						type: 'length[6]'
+						prompt: "密码要多于六位哟~"
+					},{
+						type: 'maxLength[32]'
+						prompt: "密码太长啦！"
+					}
+				]
+			sexal:
+				inline: true
+				on: 'blur'
+				identifier: 'sexal'
+				rules: [
+					{
+						type: 'empty'
+						prompt: '请填写一下性别哟~'
+					}
+				]
+			phone:
+				inline: true
+				on: 'blur'
+				identifier: 'phone'
+				rules: [
+					{
+						type: 'empty'
+						prompt: '请填写一下联系电话哟~'
+					}
+				]
+			,{
+				inline: true
+				on: 'blur'
+				onSuccess: () ->
+					$('#nextStep1').css 'display', 'inline-block'
+			}
 
 	Initialize : () ->
 		window.base.InitDropDown()
@@ -103,21 +151,25 @@ window.angular_app.run [
 		$rs.registStatus = [
 			{
 				step: 1
+				saved: false
 				completed: false
 				onEdit:	true
 			},
 			{
 				step: 2
+				saved: false
 				completed: false
 				onEdit:	false
 			},
 			{
 				step: 3
+				saved: false
 				completed: false
 				onEdit:	false
 			},
 			{
 				step: 4
+				saved: false
 				completed: false
 				onEdit:	false
 			}

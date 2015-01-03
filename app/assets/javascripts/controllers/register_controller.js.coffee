@@ -14,6 +14,7 @@ window.angular_app.controller 'RegisterController', [
 		# Initialization
 		$s.registData =
 			password: ""
+			isWorking: false
 
 
 		$s.checkProgress = (stepIndex) ->
@@ -23,6 +24,9 @@ window.angular_app.controller 'RegisterController', [
 		$s.stepHasCompleted = (stepIndex) ->
 			console.log 'Setting StepInfo completed!'
 			$rs.registStatus[stepIndex - 1].completed = true
+
+		$s.isWorking = ->
+			$s.registData.isWorking = !($s.registData.isWorking)
 
 		# Validation
 		$s.validation = (stepIndex) ->
@@ -46,10 +50,21 @@ window.angular_app.controller 'RegisterController', [
 								}
 							]
 
-		window.changeStep = (stepIndex) ->
-			$s.changeStatus(stepIndex)
-			$rs.onEditStep = stepIndex
-			$render()
+		$s.saveForm = (stepIndex) ->
+			switch stepIndex
+				when 1
+					console.log 'Step 1 has been save!'
+
+		$s.postData = ->
+			$http
+					method: 'POST'
+					url: "/api/v1/user.json"
+					data: $s.registData
+				.success (data) ->
+					$rs.isSuccess = true
+					$rs.userData = data
+				.error (data) ->
+					$rs.error = true
 
 
 
