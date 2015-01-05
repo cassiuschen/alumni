@@ -53,6 +53,23 @@ window.base =
 	ResizeAll : () ->
 		#window.base.ResizeHomeHeroBG()
 
+
+	Initialize : () ->
+		window.base.InitDropDown()
+		window.base.ResizeAll()
+		window.base.ChangeBGColor()
+
+window.onresize = ->
+	window.base.ResizeAll()
+
+
+#################
+#
+# Form Validations
+#
+#################
+
+window.form =
 	ValidateFormOne : () ->
 		$('.ui.form#step1').form
 			name:
@@ -119,17 +136,20 @@ window.base =
 			,{
 				inline: true
 				on: 'blur'
-				onSuccess: () ->
+				on: () ->
 					$('#nextStep1').css 'display', 'inline-block'
+					$('#toStep1').addClass 'completed'
+					return
 			}
+	Validate : (formID) ->
+		$(".ui.form##{formID}").form 'validate form'
 
-	Initialize : () ->
-		window.base.InitDropDown()
-		window.base.ResizeAll()
-		window.base.ChangeBGColor()
 
-window.onresize = ->
-	window.base.ResizeAll()
+#################
+#
+# Angular App
+#
+#################
 
 window.angular_app = angular.module('AlumniApp', [
 	'ngCookies',

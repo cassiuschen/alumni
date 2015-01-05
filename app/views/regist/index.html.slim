@@ -18,7 +18,7 @@
   .stackable.ui.grid.page.action_container
     .four.wide.column
       .ui.steps.small.ordered.vertical
-        a.step class="{{(onEditStep == 1)?'active':''}} {{(registStatus[0].completed == true)?'completed':''}}" ng-click="changeStatus(1);"
+        a.step#toStep1 class="{{(onEditStep == 1)?'active':''}}" ng-click="changeStatus(1);"
           .content
             .title 基本信息
             .description
@@ -41,7 +41,7 @@
     .twelve.wide.column
       p
         | {{registData}}
-      form.segment.ui.form#step1 inline="true" ng-if="onEditStep == 1"
+      .segment.ui.form#step1 inline="true" ng-if="onEditStep == 1"
         .ui.error.message
           p
         h4.ui.dividing.header 基本信息
@@ -78,12 +78,12 @@
             .menu
               .item data-value="male" 男
               .item data-value="female" 女
-        button.ui.submit.button.blue#nextStep1 style="display:none;" role="button" type="submit"
+        button.ui.submit.button role="button" type="submit"
           | 保存
-        a.ui.button.green ng-if="registStatus[0].saved == true" ng-click="validateForm(1)" 下一步
+        a.ui.button.green#nextStep1 style="display:none;" ng-click="validateForm(1)" 下一步
         coffee:
           window.base.InitDropDown()
-          window.base.ValidateFormOne()
+          window.form.ValidateFormOne()
       .segment.ui.form#step2 ng-if="onEditStep == 2"
         .ui.error.message
         h4.ui.dividing.header 额外信息
