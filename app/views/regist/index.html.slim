@@ -42,8 +42,6 @@
       p
         | {{registData}}
       .segment.ui.form#step1 inline="true" ng-if="onEditStep == 1"
-        .ui.error.message
-          p
         h4.ui.dividing.header 基本信息
         .two.fields
           .field
@@ -80,12 +78,11 @@
               .item data-value="female" 女
         button.ui.submit.button role="button" type="submit"
           | 保存
-        a.ui.button.green#nextStep1 style="display:none;" ng-click="validateForm(1)" 下一步
+        a.ui.button.green#nextStep1 style="display:none;" ng-click="changeStep(2)" 下一步
         coffee:
           window.base.InitDropDown()
           window.form.ValidateFormOne()
       .segment.ui.form#step2 ng-if="onEditStep == 2"
-        .ui.error.message
         h4.ui.dividing.header 额外信息
         .field
           label 就读大学
@@ -94,33 +91,45 @@
           label 专业
           input#major type="text" ng-model="registData.major"
         .field
-          .ui.checkbox ng-click="isWorking()"
-          input type="checkbox" ng-model="registData.isWorking"
-          label ng-click="isWorking()" 我已工作
-        .ui.divider
-        .field
-          label 所属书院(单元)
-          .ui.selection.dropdown
-            input#department type="hidden" ng-model="registData.department"
-            .default.text 请选择所属书院
-            i.dropdown.icon
-            .menu
-              - for (k,v) in User::UNITS
-                .item data-value="#{k}" = v
-        .field
-          .ui.checkbox
+          .ui.checkbox#worked class="{{registData.isWorking ? 'checked' : ''}}"
             input type="checkbox"
-            label 我是该书院荣誉成员
+            input#angular-data type="hidden" value="{{registData.isWorking}}"
+            label 我已工作
+        #departmentTable ng-if="registData.graduateAt > 2011"
+          .ui.divider
+          .field
+            label 所属书院(单元)
+            .ui.selection.dropdown
+              input#department type="hidden" ng-model="registData.department"
+              .default.text 请选择所属书院
+              i.dropdown.icon
+              .menu
+                - for (k,v) in User::UNITS
+                  .item data-value="#{k}" = v
+          .field 
+            .ui.checkbox
+              input type="checkbox"
+              label 我是该书院荣誉成员
+        #workStatus style="display:none" 
+          .ui.divider
+          .field
+            label Work
         .ui.divider
         /.field
           /label 个人描述
           /textarea
+        button.ui.submit.button role="button" type="submit"
+          | 保存
+        a.ui.button.green#nextStep1 style="display:none;" ng-click="changeStep(3)" 下一步
         coffee:
           window.base.InitDropDown()
-        a.ui.bottom.button.green ng-if="onEditStep == 2" 下一步
+          $('.ui.checkbox').checkbox
+            onChecked: () ->
+              $('#workStatus').css 'display', 'block'
+            onUnchecked: () ->
+              $('#workStatus').css 'display', 'none'
 
       .segment.ui.form.info ng-if="onEditStep == 3"
-        .ui.error.message
         h4.ui.dividing.header 地理信息
         .field
           label 选择分部

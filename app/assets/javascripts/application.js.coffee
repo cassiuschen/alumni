@@ -32,7 +32,7 @@
 window.base =
 	InitDropDown : () ->
 		$('.ui.dropdown').dropdown()
-		$('.ui.checkbox').checkbox()
+		
 
 	ResizeHomeHeroBG : () ->
 		@width = $(window).width() / 3
@@ -136,7 +136,7 @@ window.form =
 			,{
 				inline: true
 				on: 'blur'
-				on: () ->
+				onSuccess: () ->
 					$('#nextStep1').css 'display', 'inline-block'
 					$('#toStep1').addClass 'completed'
 					return
