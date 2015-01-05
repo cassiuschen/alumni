@@ -5,7 +5,6 @@ window.angular_app.controller 'RegisterController', [
 	'$timeout',
 	($rs, $http, $s, $tOut) ->
 		$s.changeStatus = (stepIndex) ->
-			$s.checkProgress($rs.onEditStep)
 			console.log "Changing onEditStep info to #{stepIndex}!"
 			$rs.onEditStep = stepIndex
 			$rs.registStatus[stepIndex - 1].onEdit = true
@@ -15,15 +14,6 @@ window.angular_app.controller 'RegisterController', [
 		$s.registData =
 			password: ""
 			isWorking: false
-
-
-		$s.checkProgress = (stepIndex) ->
-			console.log 'Now Check Progrss but all pass!'
-			$s.stepHasCompleted(stepIndex)
-
-		$s.stepHasCompleted = (stepIndex) ->
-			console.log 'Setting StepInfo completed!'
-			$rs.registStatus[stepIndex - 1].completed = true
 
 		$s.isWorking = ->
 			$s.registData.isWorking = !($s.registData.isWorking)
