@@ -23,24 +23,26 @@
             .title 基本信息
             .description
               | 我们将根据这些信息完善您的身份信息
-        a.step class="{{(onEditStep == 2)?'active':''}} {{(registStatus[1].completed == true)?'completed':''}}" ng-click="changeStatus(2);"
+        a.step#toStep2 class="{{(onEditStep == 2)?'active':''}} {{(registStatus[1].completed == true)?'completed':''}}" ng-click="changeStatus(2);"
           .content
             .title 额外信息
             .description
               | 我们将使用这部分数据来完善未来的社交功能
-        a.step class="{{(onEditStep == 3)?'active':''}} {{(registStatus[2].completed == true)?'completed':''}}" ng-click="changeStatus(3);"
+        a.step#toStep3 class="{{(onEditStep == 3)?'active':''}} {{(registStatus[2].completed == true)?'completed':''}}" ng-click="changeStatus(3);"
           .content
             .title 地理信息
             .description
               | 您将在此选择加入的校友会分部
-        a.step class="{{(onEditStep == 4)?'active':''}}"
+        a.step#toStep4 class="{{(onEditStep == 4)?'active':''}}"
           .content
             .title 确认信息
             .description
               | 最终确认信息并提交
+      
     .twelve.wide.column
-      p
+      .ui.segment style="word-break: break-word;"
         | {{registData}}
+      // STEP 1 =======================================================================
       .segment.ui.form#step1 inline="true" ng-if="onEditStep == 1"
         h4.ui.dividing.header 基本信息
         .two.fields
@@ -104,6 +106,17 @@
         .field
           label 联系电话
           input#phone type="text" ng-model="registData.phone"
+        a#getMoreContact style="cursor: pointer;" ng-click="showMoreContact()" 更多联系方式
+        #moreContact style="margin-top:15px;margin-bottom:15px;" ng-if="haveMoreContact"
+          .field
+            label 微信
+            input#wechat ng-model="registData.wechat"
+          .field
+            label QQ
+            input#qq ng-model="registData.qq"
+          .field
+            label Skype
+            input#skype ng-model="registData.skype"
         .field
           span
             | 我们将首要使用 
@@ -111,25 +124,14 @@
               input.angularData(type="text" ng-model="registData.defaultContact" ng-update-hidden)
               .text 电子邮件
               i.dropdown.icon
-              .menu
+              .menu#contactsMenu
                 .item data-text="电子邮件" data-value="email"
                   i.mail.icon
                   | 电子邮件
                 .item data-text="电话" data-value="phone"
-                  i.phone.icon
+                  i.mobile.icon
                   | 电话
-            |  与您取得联系{{registData.defaultContact}}
-        a#getMoreContact style="cursor: pointer;" ng-click="showMoreContact()" 更多联系方式
-        #moreContact style="margin-top:15px;" ng-if="haveMoreContact"
-          .field
-            label 微信
-            input#wechat ng-model="registData.wechat"
-          .field
-            label qq
-            input#qq ng-model="registData.qq"
-          .field
-            label Skype
-            input#skype ng-model="registData.skype"
+            |  与您取得联系
         .ui.divider
         a.ui.submit.labeled.icon.button role="button" type="submit"
           i.save.icon
@@ -138,6 +140,10 @@
         coffee:
           #window.base.InitDropDown()
           window.base.AngularDropDown("#defaultContact", 'hover')
+          window.form.ValidateFormOne()
+      
+
+      // STEP 2 =======================================================================
       .segment.ui.form#step2 ng-if="onEditStep == 2"
         h4.ui.dividing.header 额外信息
         .field
@@ -156,18 +162,34 @@
           .field
             label 所属书院(单元)
             .ui.selection.dropdown
-              input#department type="hidden" ng-model="registData.department"
+              input.angularData#department type="hidden"
               .default.text 请选择所属书院
               i.dropdown.icon
               .menu
                 - for (k,v) in User::UNITS
                   .item data-value="#{k}" = v
           coffee:
-            $('#departmentTable .ui.dropdown').dropdown()
+            selector = '#departmentTable .ui.dropdown'
+            $(selector).dropdown
+              on: 'click'
+              onChange: (text, value) ->
+                $("#{selector} .text").html value
+                $("#{selector} input.angularData").val text
+                scope = angular.element($("#{selector} input.angularData")).scope()
+                #scope.rdefaltContact = text
+                scope.$apply () ->
+                  scope.registData.department = text
+                console.log "ChangeData for Angular!Value: #{value}, text: #{text}"
           .field 
-            .ui.checkbox
-              input type="checkbox"
+            .ui.checkbox#honerCheck
+              input type="checkbox" ng-model="registData.department_member"
               label 我是该书院荣誉成员
+            coffee:
+              $('#honerCheck').checkbox
+                onChange: () ->
+                  scope = angular.element($('#honerCheck input')).scope()
+                  scope.$apply () ->
+                    scope.registData.department_member = !(scope.registData.department_member)
         #workStatus style="display:none" 
           .ui.divider
           .field
@@ -176,30 +198,32 @@
         /.field
           /label 个人描述
           /textarea
-        button.ui.submit.button role="button" type="submit"
+        a.ui.submit.labeled.icon.button role="button" type="submit"
+          i.save.icon
           | 保存
-        a.ui.button.green#nextStep1 style="display:none;" ng-click="changeStep(3)" 下一步
+        a.ui.button.green#nextStep2 style="display:none;" ng-click="changeStep(3)" 下一步
         coffee:
-          window.base.InitDropDown()
+          #window.base.InitDropDown()
           $('.ui.checkbox').checkbox
             onChecked: () ->
               $('#workStatus').css 'display', 'block'
             onUnchecked: () ->
               $('#workStatus').css 'display', 'none'
+          window.form.ValidateFormTwo()
 
-      .segment.ui.form.info ng-if="onEditStep == 3"
+
+      // STEP 3 ======================================================================
+      .segment.ui.form.info#step3 ng-if="onEditStep == 3"
         h4.ui.dividing.header 地理信息
         .field
           label 选择分部
-          .ui.selection.dropdown
-            input type="hidden" ng-model="registData.zone"
+          .ui.selection.dropdown#zone
+            input.angularData#region type="hidden" ng-model="registData.zone"
             .default.text 所属地区
             i.dropdown.icon
             .menu
               - for (k,v) in User::REGIONS
                 .item data-value="#{k}" = v
-        coffee:
-          window.base.InitDropDown()
         .ui.message.blue
           .header
             | 校友会分部说明
@@ -236,7 +260,28 @@
             | 目前校友会仍在组建，如您有意愿成为校友会运作的一部分，请联系临时负责人 陈紫晟：
             code
               | +86 159-1036-4815
-      a.ui.bottom.button.green ng-if="onEditStep == 3" 下一步
+        a.ui.submit.labeled.icon.button role="button" type="submit"
+          i.save.icon
+          | 保存
+        a.ui.button.green#nextStep3 style="display:none;" ng-click="changeStep(4)" 下一步
+        coffee:
+          window.form.ValidateFormThree()
+          selector = '#zone'
+          $(selector).dropdown
+            on: 'click'
+            onChange: (text, value) ->
+              $("#{selector} .text").html value
+              $("#{selector} input.angularData").val text
+              scope = angular.element($("#{selector} input.angularData")).scope()
+              #scope.rdefaltContact = text
+              scope.$apply () ->
+                scope.registData.region = text
+              console.log "ChangeData for Angular!Value: #{value}, text: #{text}"
+
+
+      // STEP 4 ======================================================================
+      .segment.ui.form.info#step3 ng-if="onEditStep == 4"
+
 
 
 

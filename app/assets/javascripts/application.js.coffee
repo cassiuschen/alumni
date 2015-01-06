@@ -156,6 +156,49 @@ window.form =
 	Validate : (formID) ->
 		$(".ui.form##{formID}").form 'validate form'
 
+	ValidateFormTwo : ->
+		$('.ui.form#step2').form
+			school:
+				identifier: 'school'
+				rules: [
+					{
+						type: 'empty'
+						prompt: 'cant be empty'
+					}
+				]
+			major:
+				identifier: 'major'
+				rules: [
+					{
+						type: 'empty'
+						prompt: 'cant be empty'
+					}
+				]
+			,{
+				inline: true
+				on: 'blur'
+				onSuccess: ->
+					$('#nextStep2').css 'display', 'inline-block'
+					$('#toStep2').addClass 'completed'
+			}
+	ValidateFormThree : ->
+		$('.ui.form#step3').form
+			region:
+				identifier: 'region'
+				rules: [
+					{
+						type: 'empty'
+						prompt: 'cant be empty'
+					}
+				]
+			,{
+				inline: true
+				on: 'blur'
+				onSuccess: ->
+					$('#nextStep3').css 'display', 'inline-block'
+					$('#toStep3').addClass 'completed'
+			}
+
 
 #################
 #
