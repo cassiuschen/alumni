@@ -49,18 +49,29 @@
             input#name type="text" placeholder="姓名" ng-model="registData.name"
           .field
             label 毕业年份
-            .ui.selection.dropdown
-              input#graduateAt name="graduateAt" type="hidden" ng-model="registData.guaduateAt" value="{{registData.guaduateAt || ''}}"
+            .ui.selection.dropdown#graduateAtDD
+              input.angularData#graduateAt name="graduateAt" type="hidden" ng-model="registData.guaduateAt" value="{{registData.guaduateAt || ''}}"
               .default.text
                 | {{registData.guaduateAt || '毕业年份'}}
               i.dropdown.icon
               .menu
                 - for i in (1980..Time.now.year.to_i).to_a.sort_by{|k| -k}
                   .item data-value="#{i}" = i
+            coffee:
+              selector = '#graduateAtDD'
+              $(selector).dropdown
+                onChange: (text, value) ->
+                  $("#{selector} .text").html value
+                  $("#{selector} input.angularData").val text
+                  scope = angular.element($("#{selector} input.angularData")).scope()
+                  #scope.rdefaltContact = text
+                  scope.$apply () ->
+                    scope.registData.graduateAt = text
+                  console.log "ChangeData for Angular!Value: #{value}, text: #{text}"
         .field
           label 性别
-          .ui.selection.dropdown
-            input#sexal type="hidden" ng-model="registData.sex"
+          .ui.selection.dropdown#sexalDD
+            input.angularData#sexal(type="hidden" ng-model="registData.sex" ng-update-hidden ng-change="updateHidenData()")
             .default.text 请选择性别
             i.dropdown.icon
             .menu
@@ -70,6 +81,18 @@
               .item data-value="female" 
                 i.female.icon
                 | 女
+          coffee:
+            selector = '#sexalDD'
+            $(selector).dropdown
+              on: 'click'
+              onChange: (text, value) ->
+                $("#{selector} .text").html value
+                $("#{selector} input.angularData").val text
+                scope = angular.element($("#{selector} input.angularData")).scope()
+                #scope.rdefaltContact = text
+                scope.$apply () ->
+                  scope.registData.sex = text
+                console.log "ChangeData for Angular!Value: #{value}, text: #{text}"
         .ui.divider
         .field
           label 电子邮箱地址
@@ -85,7 +108,7 @@
           span
             | 我们将首要使用 
             .ui.inline.dropdown#defaultContact
-              input.angularData type="text" ng-model="registData.defaultContact"
+              input.angularData(type="text" ng-model="registData.defaultContact" ng-update-hidden)
               .text 电子邮件
               i.dropdown.icon
               .menu
@@ -95,7 +118,7 @@
                 .item data-text="电话" data-value="phone"
                   i.phone.icon
                   | 电话
-            |  与您取得联系
+            |  与您取得联系{{registData.defaultContact}}
         a#getMoreContact style="cursor: pointer;" ng-click="showMoreContact()" 更多联系方式
         #moreContact style="margin-top:15px;" ng-if="haveMoreContact"
           .field
@@ -113,9 +136,8 @@
           | 保存
         a.ui.button.green#nextStep1 style="display:none;" ng-click="changeStep(2)" 下一步
         coffee:
-          window.base.InitDropDown()
-          window.base.AngularDropDown("#defaultContact")
-          window.form.ValidateFormOne()
+          #window.base.InitDropDown()
+          window.base.AngularDropDown("#defaultContact", 'hover')
       .segment.ui.form#step2 ng-if="onEditStep == 2"
         h4.ui.dividing.header 额外信息
         .field

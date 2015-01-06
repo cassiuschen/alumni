@@ -59,6 +59,10 @@ window.base =
 			onChange: (text, value) ->
 				$("#{selector} .text").html value
 				$("#{selector} input.angularData").val text
+				scope = angular.element($("#{selector} input.angularData")).scope()
+				#scope.rdefaltContact = text
+				scope.$apply () ->
+					scope.registData.defaltContact = text
 				console.log "ChangeData for Angular!Value: #{value}, text: #{text}"
 
 
@@ -167,6 +171,13 @@ window.angular_app = angular.module('AlumniApp', [
 ])
 
 window.secret = "<%= Rails.application.secrets.secret_key_base %>"
+
+window.angular_app
+	.directive 'ngUpdateHidden', () ->
+		(scope, el, attr) ->
+			model = attr['ngModel']
+			scope.$watch model, (newValue) ->
+				el.val newValue
 
 window.angular_app.config(["$httpProvider", (provider) ->
 	provider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content')

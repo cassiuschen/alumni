@@ -24,13 +24,14 @@ window.angular_app.controller 'RegisterController', [
 			password: $cookie.get 'password' || ''
 			phone: $cookie.get 'phone' || ''
 			sex: $cookie.get 'sex' || ''
-			defaultContact: $cookie.get 'defaultContact' || 'email'
+			defaultContact: $cookie.get 'defaultContact' || email
 			isWorking: $cookie.get 'isWorking' || false
 		}
 
 		$s.haveMoreContact = $cookie.get 'haveMoreContact' || false
 
-
+		$s.updateHidenData = () ->
+			console.log 'change!'
 
 		$s.isWorking = ->
 			$s.registData.isWorking = !($s.registData.isWorking)
