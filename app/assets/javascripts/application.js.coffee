@@ -53,6 +53,14 @@ window.base =
 	ResizeAll : () ->
 		#window.base.ResizeHomeHeroBG()
 
+	AngularDropDown : (selector, event = 'click') ->
+		$(selector).dropdown
+			on: event
+			onChange: (text, value) ->
+				$("#{selector} .text").html value
+				$("#{selector} input.angularData").val text
+				console.log "ChangeData for Angular!Value: #{value}, text: #{text}"
+
 
 	Initialize : () ->
 		window.base.InitDropDown()

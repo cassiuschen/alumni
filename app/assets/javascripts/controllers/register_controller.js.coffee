@@ -24,14 +24,23 @@ window.angular_app.controller 'RegisterController', [
 			password: $cookie.get 'password' || ''
 			phone: $cookie.get 'phone' || ''
 			sex: $cookie.get 'sex' || ''
+			defaultContact: $cookie.get 'defaultContact' || 'email'
 			isWorking: $cookie.get 'isWorking' || false
 		}
+
+		$s.haveMoreContact = $cookie.get 'haveMoreContact' || false
 
 
 
 		$s.isWorking = ->
 			$s.registData.isWorking = !($s.registData.isWorking)
 
+		$s.showMoreContact = ->
+			if $s.haveMoreContact
+				$('#getMoreContact').html '更多联系方式'
+			else
+				$('#getMoreContact').html '隐藏其他联系方式'
+			$s.haveMoreContact = !($s.haveMoreContact)
 		# Validation
 
 		$s.saveForm = (stepIndex) ->

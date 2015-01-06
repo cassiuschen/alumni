@@ -50,12 +50,26 @@
           .field
             label 毕业年份
             .ui.selection.dropdown
-              input#graduateAt name="graduateAt" type="hidden" ng-model="registData.guaduateAt"
-              .default.text 毕业年份
+              input#graduateAt name="graduateAt" type="hidden" ng-model="registData.guaduateAt" value="{{registData.guaduateAt || ''}}"
+              .default.text
+                | {{registData.guaduateAt || '毕业年份'}}
               i.dropdown.icon
               .menu
                 - for i in (1980..Time.now.year.to_i).to_a.sort_by{|k| -k}
                   .item data-value="#{i}" = i
+        .field
+          label 性别
+          .ui.selection.dropdown
+            input#sexal type="hidden" ng-model="registData.sex"
+            .default.text 请选择性别
+            i.dropdown.icon
+            .menu
+              .item data-value="male"
+                i.male.icon
+                | 男
+              .item data-value="female" 
+                i.female.icon
+                | 女
         .ui.divider
         .field
           label 电子邮箱地址
@@ -68,19 +82,39 @@
           label 联系电话
           input#phone type="text" ng-model="registData.phone"
         .field
-          label 性别
-          .ui.selection.dropdown
-            input#sexal type="hidden" ng-model="registData.sex"
-            .default.text 请选择性别
-            i.dropdown.icon
-            .menu
-              .item data-value="male" 男
-              .item data-value="female" 女
-        button.ui.submit.button role="button" type="submit"
+          span
+            | 我们将首要使用 
+            .ui.inline.dropdown#defaultContact
+              input.angularData type="text" ng-model="registData.defaultContact"
+              .text 电子邮件
+              i.dropdown.icon
+              .menu
+                .item data-text="电子邮件" data-value="email"
+                  i.mail.icon
+                  | 电子邮件
+                .item data-text="电话" data-value="phone"
+                  i.phone.icon
+                  | 电话
+            |  与您取得联系
+        a#getMoreContact style="cursor: pointer;" ng-click="showMoreContact()" 更多联系方式
+        #moreContact style="margin-top:15px;" ng-if="haveMoreContact"
+          .field
+            label 微信
+            input#wechat ng-model="registData.wechat"
+          .field
+            label qq
+            input#qq ng-model="registData.qq"
+          .field
+            label Skype
+            input#skype ng-model="registData.skype"
+        .ui.divider
+        a.ui.submit.labeled.icon.button role="button" type="submit"
+          i.save.icon
           | 保存
         a.ui.button.green#nextStep1 style="display:none;" ng-click="changeStep(2)" 下一步
         coffee:
           window.base.InitDropDown()
+          window.base.AngularDropDown("#defaultContact")
           window.form.ValidateFormOne()
       .segment.ui.form#step2 ng-if="onEditStep == 2"
         h4.ui.dividing.header 额外信息
@@ -106,6 +140,8 @@
               .menu
                 - for (k,v) in User::UNITS
                   .item data-value="#{k}" = v
+          coffee:
+            $('#departmentTable .ui.dropdown').dropdown()
           .field 
             .ui.checkbox
               input type="checkbox"

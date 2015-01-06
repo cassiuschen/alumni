@@ -36,6 +36,10 @@ html {
 	background-color: $gray;
 }
 
+input.angularData {
+	display: none !important;
+}
+
 footer {
 	padding: 2rem;
 	width: 100%;
