@@ -39,6 +39,8 @@ gem 'cancancan'
 gem 'sidekiq'
 gem 'rails-admin'
 
+gem 'mongoid_auto_increment_id'
+
 gem 'angularjs-rails'
 
 group :development, :test do

@@ -3,7 +3,9 @@
 .full-height#home-hero
   /.mask
   .hero-area
-    h1.title 欢迎回家
+    h1.title
+      | 欢迎回家
+      | {{postSuccess ? ',' + userData.name : ''}}
     .sub.title
       - if Time.now < "2015-1-7".to_time
         | 1月7日，开始报道！
@@ -33,14 +35,15 @@
             .title 地理信息
             .description
               | 您将在此选择加入的校友会分部
-        a.step#toStep4 class="{{(onEditStep == 4)?'active':''}}"
+        a.step#toStep4 class="{{(postSuccess == true)?'active':''}}"
           .content
             .title 确认信息
             .description
-              | 最终确认信息并提交
+              | 提交并最终确认信息
       
     .twelve.wide.column
-      .ui.segment style="word-break: break-word;"
+      // TEST
+      /.ui.segment style="word-break: break-word;"
         | {{registData}}
       // STEP 1 =======================================================================
       .segment.ui.form#step1 inline="true" ng-if="onEditStep == 1"
@@ -193,7 +196,11 @@
         #workStatus style="display:none" 
           .ui.divider
           .field
-            label Work
+            label 公司名称
+            input ng-model="registData.company"
+          .field
+            label 职务
+            input ng-model="registData.job"
         .ui.divider
         /.field
           /label 个人描述
@@ -247,6 +254,8 @@
             li
               | 港澳台地区分部，港澳台留学生校友总会
             li
+              | 亚洲地区分部，日本、韩国、新加坡、印度等亚洲地区留学生校友总会
+            li
               | 北美地区分部，北美洲留学生校友总会
             li
               | 欧洲分部，欧洲留学生校友总会
@@ -263,7 +272,7 @@
         a.ui.submit.labeled.icon.button role="button" type="submit"
           i.save.icon
           | 保存
-        a.ui.button.green#nextStep3 style="display:none;" ng-click="changeStep(4)" 下一步
+        a.ui.button.green#nextStep3 style="display:none;" ng-click="postData()" 提交登记
         coffee:
           window.form.ValidateFormThree()
           selector = '#zone'
@@ -273,16 +282,31 @@
               $("#{selector} .text").html value
               $("#{selector} input.angularData").val text
               scope = angular.element($("#{selector} input.angularData")).scope()
-              #scope.rdefaltContact = text
+              scope.zone = value
               scope.$apply () ->
                 scope.registData.region = text
+                scope.zone = value
               console.log "ChangeData for Angular!Value: #{value}, text: #{text}"
 
 
       // STEP 4 ======================================================================
-      .segment.ui.form.info#step3 ng-if="onEditStep == 4"
-
-
-
-
-
+      .segment.ui.form.info#step4 ng-if="postSuccess"
+        h4.ui.dividing.header
+          | 登记成功
+        .logo.vertical.black style="width:200px;height:200px;margin: 0 auto;"
+        h2.ui.center.aligned.header
+          | 欢迎回家，{{userData.name}}!
+          .sub.header
+            | 您的校友ID为：{{userData.BdfzerId}}
+            br
+            | 隶属于 {{userData.region}}
+        .ui.message.blue
+          p
+            | 近期分会负责人将审核您的信息并与您取得联系，请您保持通讯畅通！
+            br
+            | 感谢您对北大附中校友会的支持！
+        .ui.message.blue ng-if="userData.graduateAt > 2011"
+          p
+            | 您是属于 {{userData.department}} 的校友，未来该书院的校友活动将以邮件形式下发到您的邮箱
+            code
+              | {{userData.email}}

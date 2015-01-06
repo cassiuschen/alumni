@@ -18,22 +18,32 @@ window.angular_app.controller 'RegisterController', [
 		# Data
 		# Initialization
 		$s.registData = {
-			name: $cookie.get 'name' || ''
-			graduateAt: $cookie.get 'graduateAt' || ''
-			email: $cookie.get 'email' || ''
-			password: $cookie.get 'password' || ''
-			phone: $cookie.get 'phone' || ''
-			sex: $cookie.get 'sex' || ''
+			name: $cookie.get('name') || ''
+			graduateAt: $cookie.get('graduateAt') || ''
+			email: $cookie.get('email') || ''
+			password: $cookie.get('password') || ''
+			phone: $cookie.get('phone') || ''
+			sex: $cookie.get('sex') || ''
 			defaultContact: 'email'
-			isWorking: $cookie.get 'isWorking' || false
-			wechat: $cookie.get 'wechat' || ''
-			qq: $cookie.get 'qq' || ''
-			skype: $cookie.get 'skype' || ''
+			isWorking: $cookie.get('isWorking') || false
 
-			department_member: false
-			school: $cookie.get 'school' || ''
-			major: $cookie.get 'major' || ''
+			department_member: $cookie.get('department_member') || false
+			school: $cookie.get('school') || ''
+			major: $cookie.get('major') || ''
 		}
+
+		$s.haveMoreContact = false
+		$s.zone = ''
+
+		# TEST
+		#$rs.postSuccess = true
+		#$rs.userData =
+		#	name: "陈小紫"
+		#	BdfzerId: "201400100002"
+		#	email: "chzdsh3d821@gmail.com"
+		#	region: "北京分部"
+		#	department: "诚意书院 - 三单元"
+		#	graduateAt: 2014
 
 		$s.isWorking = ->
 			$s.registData.isWorking = !($s.registData.isWorking)
@@ -46,10 +56,11 @@ window.angular_app.controller 'RegisterController', [
 				$('#getMoreContact')
 					.html '隐藏其他联系方式'
 				$('#contactsMenu').append '
-					<a class="item extra" data-text="WeChat" data-value="wechat"><i class="wechat icon"></i>WeChat</a>
+					<a class="item extra" data-text="微信" data-value="wechat"><i class="wechat icon"></i>微信</a>
 					<a class="item extra" data-text="QQ" data-value="qq"><i class="qq icon"></i>QQ</a>
 					<a class="item extra" data-text="Skype" data-value="skype"><i class="skype icon"></i>Skype</a>
 				'
+			$s.haveMoreContact = !($s.haveMoreContact)
 				
 		# Validation
 
@@ -72,6 +83,9 @@ window.angular_app.controller 'RegisterController', [
 					$cookie.put 'school', $s.registData.school
 					$cookie.put 'major', $s.registData.major
 					console.log 'Step 2 has been save!'
+				when 3
+					$cookie.put 'region', $s.registData.region
+					$cookie.put 'zone', $s.zone
 			
 
 		$s.postData = ->
@@ -80,8 +94,9 @@ window.angular_app.controller 'RegisterController', [
 					url: "/api/v1/user.json"
 					data: $s.registData
 				.success (data) ->
-					$rs.isSuccess = true
-					$rs.userData = data
+					$rs.onEditStep = 4
+					$rs.postSuccess = true
+					$rs.userData = data.data
 				.error (data) ->
 					$rs.error = true
 

@@ -9,14 +9,10 @@ class User
   field :email,              type: String, default: ""
   field :encrypted_password, type: String, default: ""
 
-  field :mobile,             type: String
-
   # Main Data
   field :region,               type: Integer, default: 84
 
-  field :sexual,               type: String, default: 'Unknown'
-
-  field :guaduate_at,          type: String, default: -> { Time.now.year.to_s }
+  field :graduate_at,          type: String, default: -> { Time.now.year.to_s }
 
   field :department,           type: Integer, default: 0
   field :department_member,    type: Boolean, default: false
@@ -24,6 +20,8 @@ class User
   field :name,                 type: String
 
   field :power,                type: Integer, default: 0
+
+  field :uid,               type: String
 
   ## Recoverable
   field :reset_password_token,   type: String
@@ -52,8 +50,13 @@ class User
 
   has_one :profile, inverse_of: :user
 
+  after_create do
+    self.uid = self.BdfzerId
+    self.save   
+  end
+
   REGIONS = {
-    1   => '北京总部',
+    1   => '北京分部',
     10  => '江浙沪地区分部',
     20  => '东北地区分部',   #包括辽宁、吉林、黑龙江
     30  => '华东南地区分部', #包括安徽、福建、广东、广西、海南
@@ -64,6 +67,7 @@ class User
     100 => '北美地区分部',
     200 => '欧洲分部',
     300 => '南半球分部',
+    400 => '亚洲地区分部',
     84  => '其他或尚不明确'
   }
 
@@ -80,7 +84,7 @@ class User
 
   def BdfzerId
     # BDFZerID格式： "201400100001", 毕业年份 2014， 所在地 北京（001）， 序号 001
-    guaduate_at + region.to_s.rjust(3, '0') + _id.to_s.rjust(5, '0')
+    graduate_at + region.to_s.rjust(3, '0') + _id.to_s.rjust(5, '0')
   end
  
   def department_member?
@@ -105,13 +109,38 @@ class User
   end  
 
   def self.create_from_angular_params(params)
-    @user = User.create(
-      email: params[:email],
-      password: params[:password],
-      password_confirmation: params[:password],
-      mobile: params[:mobile],
-      guaduate_at: params[:guaduate_at],
-    )
+    @user = User.where(email: params[:email]).last
+    unless @user
+      @user = User.new(
+        email: params["email"],
+        name: params["name"],
+        password: params["password"],
+        password_confirmation: params["password"],
+        graduate_at: params["graduateAt"],
+        region: params["region"],
+        department_member: params["department_member"],
+        department: params["department"]
+      )
+      @user.save
+    
+      @user.profile = Profile.new(
+        sexual: params["sex"],
+        phone: params["phone"],
+        email: params["email"],
+        study_at: params["school"],
+        major: params["major"],
+        hasJob: params["isWorking"],
+        default_contact: params["defaultContact"]
+      )
+      @user.profile.wechat = params["wechat"] if params["wechat"]
+      @user.profile.qq = params["qq"] if params["qq"]
+      @user.profile.skype = params["skype"] if params["skype"]
+      @user.profile.work = params["work"] if params["work"]
+      @user.profile.job = params["job"] if params["job"]
+      @user.profile.wechat = params["wechat"] if params["wechat"]
+      @user.profile.save
+    end
+    @user
   end
 
 end

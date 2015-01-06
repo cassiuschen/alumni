@@ -46,8 +46,10 @@ window.base =
 		colors = ['#e08283', '#89c4f4', '#3fc380']
 		time = 0
 		setInterval () ->
+				#$('html').css 'background-color', colors[time % 3]
 				$('#home-hero').css 'background-color', colors[time % 3]
 				time += 1
+				time = 1 if time > 24
 			, 4000
 
 	ResizeAll : () ->
@@ -258,6 +260,7 @@ window.angular_app.run [
 		]
 		$rs.onEditStep = 1
 		$rs.showForm = false
+		$rs.postSuccess = false
 
 ]
 
