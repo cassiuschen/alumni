@@ -8,6 +8,14 @@ html ng-app="AlumniApp"
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
+    javascript:
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?e1238facad330a818a84e64de5b0cb7e";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+})();
   body class="#{action_name} #{controller_name}"
     .notice = notice
     .alert = alert
