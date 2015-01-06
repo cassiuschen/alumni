@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       post 'user' => 'register#create'
+      get 'list' => 'register#get_list'
     end
   end
 
