@@ -165,7 +165,7 @@ window.form =
 				rules: [
 					{
 						type: 'empty'
-						prompt: 'cant be empty'
+						prompt: '如果是家里蹲也要写“家里蹲”哟~'
 					}
 				]
 			major:
@@ -173,7 +173,7 @@ window.form =
 				rules: [
 					{
 						type: 'empty'
-						prompt: 'cant be empty'
+						prompt: '请填写专业哟~'
 					}
 				]
 			,{
@@ -190,7 +190,7 @@ window.form =
 				rules: [
 					{
 						type: 'empty'
-						prompt: 'cant be empty'
+						prompt: '请填写你现在的位置哟~'
 					}
 				]
 			,{
@@ -234,28 +234,20 @@ window.angular_app.run [
 	($rs) ->
 		$rs.registStatus = [
 			{
-				step: 1
 				saved: false
 				completed: false
-				onEdit:	true
 			},
 			{
-				step: 2
 				saved: false
 				completed: false
-				onEdit:	false
 			},
 			{
-				step: 3
 				saved: false
 				completed: false
-				onEdit:	false
 			},
 			{
-				step: 4
 				saved: false
 				completed: false
-				onEdit:	false
 			}
 		]
 		$rs.onEditStep = 1
