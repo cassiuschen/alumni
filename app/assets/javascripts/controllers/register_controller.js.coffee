@@ -8,12 +8,10 @@ window.angular_app.controller 'RegisterController', [
 		$s.changeStatus = (stepIndex) ->
 			console.log "Changing onEditStep info to #{stepIndex}!"
 			$rs.onEditStep = stepIndex
-			$rs.registStatus[stepIndex - 1].onEdit = true
 
 		$s.changeStep = (stepIndex) ->
 			$s.saveForm($rs.onEditStep)
 			$rs.onEditStep = stepIndex
-			$rs.registStatus[stepIndex - 1].onEdit = true
 
 		# Data
 		# Initialization
@@ -67,6 +65,7 @@ window.angular_app.controller 'RegisterController', [
 		$s.saveForm = (stepIndex) ->
 			switch stepIndex
 				when 1
+
 					$cookie.put 'name', $s.registData.name
 					$cookie.put 'graduateAt', $s.registData.graduateAt
 					$cookie.put 'email', $s.registData.email
