@@ -60,7 +60,7 @@
                 | {{registData.guaduateAt || '毕业年份'}}
               i.dropdown.icon
               .menu
-                - for i in (1980..Time.now.year.to_i).to_a.sort_by{|k| -k}
+                - for i in (1960..2014).to_a.sort_by{|k| -k}
                   .item data-value="#{i}" = i
             coffee:
               selector = '#graduateAtDD'
