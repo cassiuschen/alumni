@@ -22,7 +22,12 @@ class Api::V1::RegisterController < Api::V1::BaseController
 
   def get_list
     @list = []
-    User.all.each do |u|
+    if params
+      @users = User.where(params.first.first.to_sym => paras.first.last)
+    else
+      @users = User.all
+    end
+    @users.each do |u|
       @list << {
         name: u.name,
         graduateAt: u.graduate_at,
@@ -31,7 +36,7 @@ class Api::V1::RegisterController < Api::V1::BaseController
       }
     end
     render json: {
-      size: User.all.size,
+      size: @users.size,
       data: @list
     }
   end

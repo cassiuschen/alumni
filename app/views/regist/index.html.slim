@@ -10,9 +10,9 @@
       - if Time.now < "2015-1-7".to_time
         | 1月7日，开始报道！
       - else
-        | 已有 #{(User.all.size > 30)?(User.all.size):(User.all.size + 30)} 名校友报道
+        | 已有 #{(User.all.size > 30)?(User.all.size):(User.all.size + 30)} 名校友报到
     - if Time.now > "2015-1-7".to_time or Rails.env.development?
-      a.ui.button.inverted.huge href="#home-content" style="margin-top:30px;" ng-click="showForm = !(showForm)" 我要报道
+      a.ui.button.inverted.huge href="#home-content" style="margin-top:30px;" ng-click="showForm = !(showForm)" 我要报到
     /- else
       /a.ui.button.inverted.huge.disabled style="margin-top:30px;" 1月7日，开始报道
 /.border-red.bottom
