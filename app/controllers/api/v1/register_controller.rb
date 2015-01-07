@@ -23,7 +23,7 @@ class Api::V1::RegisterController < Api::V1::BaseController
   def get_list
     @list = []
     if params
-      @users = User.where(params.first.first.to_sym => paras.first.last)
+      @users = User.where(params.first.first.to_sym => params.first.last)
     else
       @users = User.all
     end
