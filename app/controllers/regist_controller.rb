@@ -4,4 +4,7 @@ class RegistController < ApplicationController
 
   def success
   end
+
+  def data
+  end
 end

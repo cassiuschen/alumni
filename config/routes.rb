@@ -1,9 +1,7 @@
 Rails.application.routes.draw do
   root 'regist#index'
   
-  get 'regist/index'
-
-  get 'regist/success'
+  get 'data' => 'regist#data'
 
   namespace :api do
     namespace :v1 do

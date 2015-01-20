@@ -1,0 +1,8 @@
+.stackable.ui.grid.page
+  .sixteen.wide.column style="padding: 50px 0;"
+    table.ui.table
+      tbody
+        - for (index, zone) in User::REGIONS
+          tr 
+            td = zone
+            td = User.where(region: index).size
