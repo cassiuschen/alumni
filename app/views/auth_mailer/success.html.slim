@@ -1,0 +1,8 @@
+h1 This is a Test
+- attr = %w(email zone name role unit)
+table
+  - for a in attr
+    tr
+      td = a
+      td = @user.method(a.to_sym).call.to_s
+

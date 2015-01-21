@@ -8,6 +8,10 @@ Rails.application.routes.draw do
       post 'user' => 'register#create'
       get 'list' => 'register#get_list'
     end
+
+    namespace :test do
+      get 'mailer/success/:id' => 'mailer_test#success'
+    end
   end
 
   # devise_for :users
