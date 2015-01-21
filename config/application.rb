@@ -39,9 +39,9 @@ module AlumniAssociation
       port:                 25,
       domain:               'bdfzer.com',
       user_name:            'alumni_bdfzer',
-      password:             'PdMi5kvH7PkNdLmc'
-      #authentication:       'plain',
-      #enable_starttls_auto: true
+      password:             'PdMi5kvH7PkNdLmc',
+      authentication:       'plain',
+      enable_starttls_auto: true
     }
   end
 end
