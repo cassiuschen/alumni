@@ -33,15 +33,19 @@ module AlumniAssociation
     config.active_job.queue_name_prefix = Rails.env
 
     # Mailer
-    config.action_mailer.delivery_method = :smtp
-    config.action_mailer.smtp_settings = {
-      address:              'smtpcloud.sohu.com',
-      port:                 25,
-      domain:               'bdfzer.com',
-      user_name:            'alumni_bdfzer',
-      password:             'PdMi5kvH7PkNdLmc',
-      authentication:       'login'
-      #enable_starttls_auto: true
+    config.action_mailer.delivery_method = :sendmail
+    config.action_mailer.sendmail_settings = {  
+        :location       => '/usr/sbin/sendmail',  
+        :arguments      => '-i -t'  
+    }  
+#    config.action_mailer.smtp_settings = {
+#      address:              'smtpcloud.sohu.com',
+#      port:                 25,
+#      domain:               'bdfzer.com',
+#      user_name:            'alumni_bdfzer',
+#      password:             'PdMi5kvH7PkNdLmc',
+#      authentication:       'login'
+#      #enable_starttls_auto: true
     }
   end
 end
