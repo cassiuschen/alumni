@@ -1,5 +1,5 @@
 # First, you need to change these below to your situation.
-APP_ROOT = '/var/mirrors/alumni'
+APP_ROOT = '/var/data/alumni'
 
 # Second, you can choose how many threads that you are going to run at same time.
 workers 2

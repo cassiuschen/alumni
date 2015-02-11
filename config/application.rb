@@ -46,6 +46,6 @@ module AlumniAssociation
 #      password:             'PdMi5kvH7PkNdLmc',
 #      authentication:       'login'
 #      #enable_starttls_auto: true
-    }
+#    }
   end
 end
