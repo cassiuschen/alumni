@@ -1,3 +1,4 @@
+
 class String
   def to_time
     locale = {
