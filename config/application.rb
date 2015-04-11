@@ -37,7 +37,12 @@ module AlumniAssociation
     config.action_mailer.sendmail_settings = {  
         :location       => '/usr/sbin/sendmail',  
         :arguments      => '-i -t'  
-    }  
+    }
+    config.consider_all_requests_local = true
+
+    # mailer previews
+    config.action_mailer.show_previews = true
+    config.action_mailer.preview_path = "#{Rails.root}/lib/mailer_previews"
 #    config.action_mailer.smtp_settings = {
 #      address:              'smtpcloud.sohu.com',
 #      port:                 25,
